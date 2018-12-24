@@ -1,0 +1,67 @@
+<html>
+<%- include ./common/head.ejs %>
+<%
+    function declOfNum(number, titles) {
+        const cases = [2, 0, 1, 1, 1, 2];
+        return titles[(number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
+    }
+    function isHexLight(color) {
+        const hex = color.replace('#', '');
+        const c_r = parseInt(hex.substr(0, 2), 16);
+        const c_g = parseInt(hex.substr(2, 2), 16);
+        const c_b = parseInt(hex.substr(4, 2), 16);
+        const brightness = ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+        return brightness > 155;
+    }
+%>
+<body>
+    <main>
+        <%
+            const letterCount = `${data.letters} ${declOfNum(data.letters, ['письмо', 'письма', 'писем'])}`
+            const fontColorStyle = isHexLight(data.color) ? '' : 'color: #ffffff';
+        %>
+        <h1><%=letterCount%> доставлено адресату!</h1>
+        <div class="content-outer">
+            <div class="content sent flex-row"
+                 style="background: <%=data.color%>;<%=fontColorStyle%>">
+                <div class="flex-col w100">
+                <%
+                    let headerImg = (data.gender === 'boy') ?
+                            "/images/this_boy_loves.svg" : "/images/this_girl_loves.svg"
+                    let mainHeader = (data.gender === 'boy') ?
+                            'Дорогой мальчик ' : 'Дорогая девочка '
+                    mainHeader += '<strong>' + data.name + '</strong>'
+                %>
+                    <img src=<%=headerImg%>>
+                <p><%- mainHeader %>!</p>
+                <%
+                    let wishList = 'Отлично выспаться'
+                    let lastLetter = (data.gender === 'boy') ? '' : 'а'
+                    if (data.myWishes.length > 0) {
+                        wishList = ''
+                        data.myWishes.forEach((wish, i) => {
+                            let postfix = ', '
+                            if (i == data.myWishes.length - 2) {
+                                postfix = ' и '
+                            } else if (i == data.myWishes.length - 1) {
+                                postfix = ''
+                            }
+                            wishList += wish.title.toLowerCase() + postfix
+                        })
+                    }
+                %>
+                <p>Ты определенно заслужил<%=lastLetter%> в 2019-м году <%=wishList%></p>
+                    <%
+                        let daysLeft = Math.ceil((new Date(data.answer) - new Date())/(24*60*60*1000))
+                        daysLeft = `${daysLeft} ${declOfNum(daysLeft, ['день', 'дня', 'дней'])}`
+                    %>
+                <h2>Твой мешок мотиваций уже в пути! Осталось <%=daysLeft%>.</h2>
+                <a class="button" href="/">Попробуем еще раз?</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include ./common/footer.ejs %>
+    <%- include ./snowflakes.ejs %>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<% if (data.snow > 0) { %>
+<div class="snowflakes" aria-hidden="true">
+    <%
+        const snowShapes = ['❅', '❆'];
+    %>
+    <% for (let i=0; i<=data.snow; i++) {
+        let snowShape = snowShapes[Math.round(Math.random())]
+    %>
+        <div class="snowflake">
+            <%=snowShape%>
+        </div>
+    <% } %>
+</div>
+<% } %>

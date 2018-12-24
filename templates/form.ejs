@@ -1,0 +1,127 @@
+<html>
+<%- include ./common/head.ejs %>
+<body>
+    <main>
+        <h1>Письмо Деду Морозу</h1>
+        <div class="content-outer">
+            <form class="content" method="post" enctype="application/x-www-form-urlencoded"
+                  accept-charset="utf-8" action="http://localhost:6008/post">
+                <div class="flex-row"><p>Здравствуй, Дедушка Мороз! Пишет тебе</p></div>
+                <div class="flex-row">
+                    <div class="form-row w25">
+                        <label class="container" for="boy">мальчик
+                            <input type="radio" id="boy" name="gender" value="boy" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="form-row w25">
+                        <label class="container" for="girl">девочка
+                            <input type="radio" id="girl" name="gender" value="girl">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="form-row w50">
+                        <label for="name">по имени</label>
+                        <input type="text" id="name" name="name" required
+                               minlength="2" maxlength="10" size="10">
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <p>Я вел(а) себя очень хорошо в 2018 году, поэтому в 2019-м точно заслужил(а)</p>
+                </div>
+                <div class="flex-row">
+                    <% wishes.forEach((wish, i) => { %>
+                        <% if (i%3 == 0) { %>
+                            <% if (i > 0) { %>
+                                </div>
+                            <% } %>
+                            <div class="flex-col w50">
+                        <% }%>
+                        <div class="form-row">
+                            <label class="container" for="<%=wish.value%>"><%=wish.title%>
+                                <input type="checkbox" id="<%=wish.value%>" name="<%=wish.value%>">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <%  if (i == wishes.length - 1) { %>
+                            </div>
+                        <% } %>
+                    <% })%>
+                </div>
+                <div class="flex-row form-row">
+                    <label for="search">И помоги мне найти в новом году:</label>
+                    <input type="search" id="search" name="search">
+                </div>
+                <div class="flex-row">
+                    <div class="form-row w50">
+                        <input type="color" id="color" name="color" value="#f6b73c">
+                        <label for="color">Мой любимый цвет</label>
+                    </div>
+                    <div class="form-row w50">
+                        <input class="slider" type="range" id="snow" name="snow"
+                               min="0" max="12" step="2">
+                        <label for="snow">Добавить снега</label>
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="form-row w50">
+                        <label for="email">Мой email:</label>
+                        <input type="email" id="email" name="email" multiple>
+                    </div>
+                    <div class="form-row w50">
+                        <label for="phone">Мой телефон:</label>
+                        <input type="tel" id="phone" name="phone"
+                               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-8901">
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="form-row w50">
+                        <label for="url">Мой профиль в соцсети:</label>
+                        <input type="url" name="url" id="url" placeholder="https://example.com"
+                               pattern="https://.*">
+                    </div>
+                    <div class="form-row w50">
+                        <label for="password">Самый секретный пароль:</label>
+                        <input type="password" id="password" name="password" minlength="8">
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="form-row w50">
+                        <label for="answer">Жду твоего ответа:</label>
+                        <input type="date" id="answer" name="answer" value="2019-01-01"
+                               min="2018-12-25" max="2019-01-07">
+                    </div>
+                    <div class="form-row w50">
+                        <label for="letters">В количестве экземпляров:</label>
+                        <input type="number" id="letters" name="letters"
+                               min="1" max="10" step="1" value="1">
+                    </div>
+                </div>
+                <input id="userId" name="userId" type="hidden" value="666888">
+                <div class="flex-row">
+                    <div class="form-row w50">
+                        <input type="button" value="Получить в подарок песенку"
+                               onclick="alert('В лесу родилась ёлочка! В лесу она росла-а-а-а!')">
+                    </div>
+                    <div class="form-row w50">
+                        <input type="button" value="Получить в подарок Bentley" disabled>
+                    </div>
+                </div>
+                <div class="flex-row">
+                    <div class="form-row w33">
+                        <input type="reset" value="Сбросить" />
+                    </div>
+                    <div class="form-row w33">
+                        <input type="submit" value="Отправить" />
+                    </div>
+                    <div class="form-row w33">
+                        <input id="image" type="image" src="/images/want_it_all.svg"
+                               alt="Send" width="200" height="200">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <%- include ./common/footer.ejs %>
+</body>
+</html>
